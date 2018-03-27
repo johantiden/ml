@@ -1,13 +1,10 @@
 package com.github.johantiden.ml.jimage;
 
 import com.github.johantiden.ml.jimage.color.JTColor;
-import com.github.johantiden.ml.jimage.color.JTColor;
 import com.github.johantiden.ml.jimage.shape.CircleWithColor;
-import com.github.johantiden.ml.jimage.shape.Ellipse;
 import com.github.johantiden.ml.jimage.shape.EllipseWithColor;
 import com.github.johantiden.ml.jimage.shape.LineWithColor;
 import com.github.johantiden.ml.jimage.shape.Point;
-import com.github.johantiden.ml.jimage.shape.PointImpl;
 import com.github.johantiden.ml.jimage.shape.PolygonWithColor;
 import com.github.johantiden.ml.jimage.shape.PolygonWithColorImpl;
 import com.google.common.collect.Lists;
@@ -149,20 +146,20 @@ public class FastJTImageGraphics implements JTGraphics {
     }
 
     @Override
-    public void fillEllipse(EllipseWithColor ellipseWithColor) {
+    public void fillEllipse(EllipseWithColor ellipse) {
 
-        int left = Math.max(ellipseWithColor.leftInt(), 0);
-        int top = Math.max(ellipseWithColor.topInt(), 0);
-        int right = Math.min(ellipseWithColor.rightInt(), fastJTImage.getWidth() - 1);
-        int bottom = Math.min(ellipseWithColor.bottomInt(), fastJTImage.getHeight() - 1);
+        int left = Math.max(ellipse.leftInt(), 0);
+        int top = Math.max(ellipse.topInt(), 0);
+        int right = Math.min(ellipse.rightInt(), fastJTImage.getWidth() - 1);
+        int bottom = Math.min(ellipse.bottomInt(), fastJTImage.getHeight() - 1);
 
-        JTColor color = ellipseWithColor.getColor();
+        JTColor color = ellipse.getColor();
 
         for (int y = top; y < bottom; ++y) {
             for (int x = left; x < right; ++x) {
                 final int index = fastJTImage.getIndex(x, y);
 
-                if (isInsideEllipse(ellipseWithColor, x, y)) {
+                if (ellipse.isInside(x, y)) {
                     paintPixel(index, color.getR(), color.getG(), color.getB(), color.getA());
                 }
             }
@@ -172,18 +169,18 @@ public class FastJTImageGraphics implements JTGraphics {
     }
 
     @Override
-    public void fillEllipseRadial(EllipseWithColor ellipseWithColor) {
-        int left = Math.max(ellipseWithColor.leftInt(), 0);
-        int top = Math.max(ellipseWithColor.topInt(), 0);
-        int right = Math.min(ellipseWithColor.rightInt(), fastJTImage.getWidth() - 1);
-        int bottom = Math.min(ellipseWithColor.bottomInt(), fastJTImage.getHeight() - 1);
+    public void fillEllipseRadial(EllipseWithColor ellipse) {
+        int left = Math.max(ellipse.leftInt(), 0);
+        int top = Math.max(ellipse.topInt(), 0);
+        int right = Math.min(ellipse.rightInt(), fastJTImage.getWidth() - 1);
+        int bottom = Math.min(ellipse.bottomInt(), fastJTImage.getHeight() - 1);
 
-        JTColor color = ellipseWithColor.getColor();
+        JTColor color = ellipse.getColor();
 
         for (int y = top; y < bottom; ++y) {
             for (int x = left; x < right; ++x) {
                 final int index = fastJTImage.getIndex(x, y);
-                double ellipseBoundRatio = getEllipseBoundRatio(ellipseWithColor, x, y);
+                double ellipseBoundRatio = ellipse.getCentreRatio(x, y);
                 if (ellipseBoundRatio < 1) {
                     int alpha = Maths.roundI(color.getA() * (1-ellipseBoundRatio));
                     paintPixel(index, color.getR(), color.getG(), color.getB(), alpha);
@@ -192,24 +189,6 @@ public class FastJTImageGraphics implements JTGraphics {
         }
     }
 
-    private boolean isInsideEllipse(Ellipse ellipse, int x, int y) {
-        double rad_cc = getEllipseBoundRatio(ellipse, x, y);
-        return rad_cc < 1;
-    }
-
-    private double getEllipseBoundRatio(Ellipse ellipse, int x, int y) {
-        double cos = Math.cos(ellipse.getAngle());
-        double sin = Math.sin(ellipse.getAngle());
-
-        double xc = x - ellipse.getX();
-        double yc = y - ellipse.getY();
-
-
-        double xct = xc * cos - yc * sin;
-        double yct = xc * sin + yc * cos;
-
-        return xct*xct/Math.pow(ellipse.getWidth()/2, 2) + yct*yct/Math.pow(ellipse.getHeight()/2.,2);
-    }
 
     public void fillPolygon(PolygonWithColor polygon) {
         JTColor color = polygon.getColor();
@@ -221,7 +200,7 @@ public class FastJTImageGraphics implements JTGraphics {
 
         for (int y = top; y < bottom; ++y) {
             for (int x = left; x < right; ++x) {
-                if (polygon.isPointInside(new PointImpl(x, y))) {
+                if (polygon.isInside(x, y)) {
                     int index = fastJTImage.getIndex(x, y);
                     double a = color.getA();
                     paintPixel(index, color.getR(), color.getG(), color.getB(), a);

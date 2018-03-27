@@ -24,29 +24,28 @@ public class Worm {
             return new WormBlob(
                     packed[startIndex],
                     packed[startIndex+1],
+                    packed[startIndex+2],
+                    packed[startIndex+3],
+                    packed[startIndex+4],
                     new JTColor(
-                            Maths.minmax(packed[startIndex + 2], 0, 1),
-                            Maths.minmax(packed[startIndex + 3], 0, 1),
-                            Maths.minmax(packed[startIndex + 4], 0, 1),
-                            Maths.minmax(packed[startIndex + 5], 0, 1)
-                    ),
-                    packed[startIndex+6],
-                    packed[startIndex+7],
-                    packed[startIndex+8]
+                            Maths.minmax(packed[startIndex + 5], 0, 1),
+                            Maths.minmax(packed[startIndex + 6], 0, 1),
+                            Maths.minmax(packed[startIndex + 7], 0, 1),
+                            Maths.minmax(packed[startIndex + 8], 0, 1))
                     );
         }
 
         @Override
         protected void packChunk(WormBlob blob, double[] target, int startIndex) {
-            target[startIndex  ] = blob.x;
-            target[startIndex+1] = blob.y;
-            target[startIndex+2] = blob.color.getR();
-            target[startIndex+3] = blob.color.getG();
-            target[startIndex+4] = blob.color.getB();
-            target[startIndex+5] = blob.color.getA();
-            target[startIndex+6] = blob.width;
-            target[startIndex+7] = blob.height;
-            target[startIndex+8] = blob.angle;
+            target[startIndex  ] = blob.x1;
+            target[startIndex+1] = blob.y1;
+            target[startIndex+2] = blob.x2;
+            target[startIndex+3] = blob.y2;
+            target[startIndex+4] = blob.length;
+            target[startIndex+5] = blob.color.getR();
+            target[startIndex+6] = blob.color.getG();
+            target[startIndex+7] = blob.color.getB();
+            target[startIndex+8] = blob.color.getA();
         }
 
         @Override

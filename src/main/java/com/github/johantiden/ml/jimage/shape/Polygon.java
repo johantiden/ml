@@ -2,12 +2,13 @@ package com.github.johantiden.ml.jimage.shape;
 
 import java.util.List;
 
-public interface Polygon extends Bounded {
+public interface Polygon extends Bounded, Shape {
 
     List<Point> getPoints();
 
     // https://stackoverflow.com/questions/8721406/how-to-determine-if-a-point-is-inside-a-2d-convex-polygon
-    default boolean isPointInside(Point test) {
+    @Override
+    default boolean isInside(double x, double y) {
         int i;
         int j;
         boolean result = false;
@@ -15,8 +16,9 @@ public interface Polygon extends Bounded {
         for (i = 0, j = points.size() - 1; i < points.size() ; j = i++) {
             Point pointI = points.get(i);
             Point pointJ = points.get(j);
-            if ((pointI.getY() > test.getY()) != (pointJ.getY() > test.getY()) &&
-                    (test.getX() < (pointJ.getX() - pointI.getX()) * (test.getY() - pointI.getY()) / (pointJ.getY()- pointI.getY()) + pointI.getX())) {
+            if ((pointI.getY() > y) != (pointJ.getY() > y) &&
+                    (x < (pointJ.getX() - pointI.getX()) * (y - pointI.getY()) /
+                            (pointJ.getY()- pointI.getY()) + pointI.getX())) {
                 result = !result;
             }
         }

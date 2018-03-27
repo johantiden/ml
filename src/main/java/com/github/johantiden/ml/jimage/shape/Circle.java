@@ -1,16 +1,6 @@
 package com.github.johantiden.ml.jimage.shape;
 
-public interface Circle extends Point, Bounded {
-
-    boolean isInside(double x, double y);
-
-    default boolean isInside(int x, int y) {
-        return isInside((double)x, (double)y);
-    }
-
-    default boolean isInside(Point point) {
-        return isInside(point.getX(), point.getY());
-    }
+public interface Circle extends Point, Bounded, Shape {
 
     @Override
     default double left() {

@@ -159,7 +159,7 @@ public class Main implements SchedulingConfigurer {
             double y = Math.random() * height / 2 + height / 2;
             JTColor color = new JTColor(1, 0.5, 0, 1.0/10);
             double radius = 7;
-            WormBlob wormBlob = new WormBlob(x, y, color, radius, radius, 30);
+            WormBlob wormBlob = new WormBlob(x, y, x+radius, y-radius*2, radius, color);
             Worm worm = new Worm(Lists.newArrayList(wormBlob));
             return worm;
         };

@@ -2,12 +2,15 @@ package com.github.johantiden.ml.evolutionary.doubles;
 
 import com.github.johantiden.ml.evolutionary.SingleBreeder;
 import com.github.johantiden.ml.util.Maths;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class DoublesSingleBreeder<T> implements SingleBreeder<T> {
 
+    private static final Logger log = LoggerFactory.getLogger(DoublesSingleBreeder.class);
     private final Packer<T> packer;
 
     public DoublesSingleBreeder(Packer<T> packer) {
@@ -35,11 +38,15 @@ public class DoublesSingleBreeder<T> implements SingleBreeder<T> {
         int chunkSize = packer.chunkSize();
         double[] child = new double[parent.length + chunkSize];
 
+        int numChunks = parent.length/chunkSize;
+        int parentChunk = Maths.randomInt(numChunks);
+        int parentChunkStart = parentChunk*chunkSize;
+
         for (int i = 0; i < parent.length; i++) {
             child[i] = parent[i];
         }
-        for (int i = parent.length; i < child.length; i++) {
-            child[i] = mutateValue(parent[i-chunkSize]);
+        for (int i = 0; i < chunkSize; i++) {
+            child[i+parent.length] = mutateValue(parent[i+parentChunkStart]);
         }
 
         tryAdd(children, child);
@@ -70,6 +77,7 @@ public class DoublesSingleBreeder<T> implements SingleBreeder<T> {
             // Failed unpack. Probably because random value went out of limit.
             // This might be a big CPU loss.
             boolean putBreakpointHere = false;
+            log.error("Unpack failed", ignored);
         }
         if (unpack != null) {
             children.add(unpack);
