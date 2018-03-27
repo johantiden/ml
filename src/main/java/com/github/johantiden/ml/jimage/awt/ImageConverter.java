@@ -56,16 +56,14 @@ public final class ImageConverter {
             for (int x = 0; x < fastJTImage.getWidth(); ++x) {
                 int argb = image.getRGB((int) (x * downscale), (int) (y * downscale));
 
-                Color pixel = new Color(
-                        argb >> 16 & 0xff, //red
-                        argb >> 8 & 0xff, //green
-                        argb >> 0 & 0xff  //blue
-                );
+                int r = argb >> 16 & 0xff;
+                int g = argb >> 8 & 0xff;
+                int b = argb & 0xff;
 
                 fastJTImage.setPixel(x, y,
-                        Math.round(pixel.getRed() / 255.0),
-                        Math.round(pixel.getGreen() / 255.0),
-                        Math.round(pixel.getBlue() / 255.0));
+                        r / 255.0,
+                        g / 255.0,
+                        b / 255.0);
             }
         }
         return fastJTImage;

@@ -52,5 +52,20 @@ public class FastJTImageGraphicsTest {
         JTGraphics g1 = i1.getGraphics();
         g1.fillRectangle(0, 0, 2, 2, JTColor.RED);
 
+        assertThat(i1.getColorAt(0, 0), is(JTColor.RED));
+        assertThat(i1.getColorAt(1, 0), is(JTColor.RED));
+        assertThat(i1.getColorAt(0, 1), is(JTColor.RED));
+        assertThat(i1.getColorAt(1, 1), is(JTColor.RED));
+
+        FastJTImage i2 = new FastJTImage(2, 2);
+        JTGraphics g2 = i2.getGraphics();
+
+        g2.paint(0, 0, i1);
+
+        assertThat(i2.getColorAt(0, 0), is(JTColor.RED));
+        assertThat(i2.getColorAt(1, 0), is(JTColor.RED));
+        assertThat(i2.getColorAt(0, 1), is(JTColor.RED));
+        assertThat(i2.getColorAt(1, 1), is(JTColor.RED));
+
     }
 }
