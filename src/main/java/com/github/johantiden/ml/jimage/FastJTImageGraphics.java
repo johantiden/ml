@@ -53,7 +53,7 @@ public class FastJTImageGraphics implements JTGraphics {
 
                 double alphaPercentage = Math.min(1, penWidth - Math.abs(circle.getRadius() - circle.distanceFrom(x, y)));
                 if (alphaPercentage > 0) {
-                    paintPixel(index, circle.getColor().getR(), circle.getColor().getG(), circle.getColor().getB(), (int) Math.round(circle.getColor().getA() * alphaPercentage));
+                    paintPixel(index, circle.getColor().getR(), circle.getColor().getG(), circle.getColor().getB(), circle.getColor().getA() * alphaPercentage);
                 }
             }
         }

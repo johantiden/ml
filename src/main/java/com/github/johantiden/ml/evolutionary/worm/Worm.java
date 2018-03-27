@@ -20,14 +20,15 @@ public class Worm {
 
         @Override
         protected WormBlob unpackChunk(double[] packed, int startIndex) {
+
             return new WormBlob(
                     packed[startIndex],
                     packed[startIndex+1],
                     new JTColor(
-                            Math.round(Maths.minmax(packed[startIndex+2], 0, 1)),
-                            Math.round(Maths.minmax(packed[startIndex + 3], 0, 1)),
-                            Math.round(Maths.minmax(packed[startIndex+4], 0, 1)),
-                            Math.round(Maths.minmax(packed[startIndex+5], 0, 1))
+                            Maths.minmax(packed[startIndex + 2], 0, 1),
+                            Maths.minmax(packed[startIndex + 3], 0, 1),
+                            Maths.minmax(packed[startIndex + 4], 0, 1),
+                            Maths.minmax(packed[startIndex + 5], 0, 1)
                     ),
                     packed[startIndex+6],
                     packed[startIndex+7],

@@ -48,12 +48,12 @@ public class DoublesSingleBreeder<T> implements SingleBreeder<T> {
     private void mutateValues(List<T> children, double[] parent, int numValues) {
         double[] child = parent.clone();
         for (int i = 0; i < numValues; i++) {
-            mutateValue(child);
+            mutateRandomValue(child);
         }
         tryAdd(children, child);
     }
 
-    private static void mutateValue(double[] child) {
+    private static void mutateRandomValue(double[] child) {
         int i = Maths.randomInt(child.length);
         child[i] = mutateValue(child[i]);
     }
@@ -63,9 +63,17 @@ public class DoublesSingleBreeder<T> implements SingleBreeder<T> {
     }
 
     private void tryAdd(List<T> children, double[] child) {
+        T unpack = null;
         try {
-            children.add(packer.unpack(child));
+            unpack = packer.unpack(child);
         } catch (UnpackFailedException ignored) {
+            // Failed unpack. Probably because random value went out of limit.
+            // This might be a big CPU loss.
+            boolean putBreakpointHere = false;
         }
+        if (unpack != null) {
+            children.add(unpack);
+        }
+
     }
 }
