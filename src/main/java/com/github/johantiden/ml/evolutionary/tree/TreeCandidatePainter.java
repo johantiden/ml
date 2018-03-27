@@ -4,7 +4,7 @@ import com.github.johantiden.ml.jimage.Painter;
 import com.github.johantiden.ml.datastructures.BreadthFirst;
 import com.github.johantiden.ml.jimage.shape.CircleWithColorImpl;
 import com.github.johantiden.ml.jimage.color.JTColor;
-import com.github.johantiden.ml.jimage.color.JTColorImpl;
+import com.github.johantiden.ml.jimage.color.JTColor;
 import com.github.johantiden.ml.jimage.JTGraphics;
 
 import java.util.function.BiConsumer;
@@ -12,8 +12,8 @@ import java.util.function.Consumer;
 
 public class TreeCandidatePainter implements Painter<TreeData> {
 
-    private static final JTColor treeColor = new JTColorImpl(171, 110, 30, 250);
-    private static final JTColor leafColor = new JTColorImpl(30, 140, 0, 250);
+    private static final JTColor treeColor = new JTColor(171, 110, 30, 250);
+    private static final JTColor leafColor = new JTColor(30, 140, 0, 250);
 
     @Override
     public void paint(JTGraphics g, TreeData tree) {
@@ -48,14 +48,14 @@ public class TreeCandidatePainter implements Painter<TreeData> {
 
     private JTColor getTreeColor(TreeData tree) {
 //        return treeColor;
-//        return new JTColorImpl(treeColor, tree.color.getA());
+//        return new JTColor(treeColor, tree.color.getA());
         return tree.color;
     }
 
 
     private JTColor getLeafColor(TreeData tree) {
 //        return leafColor;
-//        return new JTColorImpl(leafColor, tree.color.getA());
+//        return new JTColor(leafColor, tree.color.getA());
         return tree.color;
     }
 }

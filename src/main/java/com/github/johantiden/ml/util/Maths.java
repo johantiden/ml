@@ -1,7 +1,7 @@
 package com.github.johantiden.ml.util;
 
 import com.github.johantiden.ml.jimage.color.JTColor;
-import com.github.johantiden.ml.jimage.color.JTColorImpl;
+import com.github.johantiden.ml.jimage.color.JTColor;
 
 import java.util.Random;
 
@@ -83,7 +83,7 @@ public class Maths {
     }
 
     public static JTColor randomizeColor(int maxJump, int maxJumpAlpha, JTColor color) {
-        return new JTColorImpl(
+        return new JTColor(
                 roundI(randomize(maxJump, color.getR(), 0, 1)),
                 roundI(randomize(maxJump, color.getG(), 0, 1)),
                 roundI(randomize(maxJump, color.getB(), 0, 1)),

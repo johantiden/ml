@@ -1,7 +1,7 @@
 package com.github.johantiden.ml.jimage;
 
 import com.github.johantiden.ml.jimage.color.JTColor;
-import com.github.johantiden.ml.jimage.color.JTColorImpl;
+import com.github.johantiden.ml.jimage.color.JTColor;
 import org.junit.Test;
 
 import static org.hamcrest.Matchers.greaterThan;
@@ -32,7 +32,7 @@ public class FastJTImageGraphicsTest {
         FastJTImage i = new FastJTImage(2, 2);
         JTGraphics g = i.getGraphics();
 
-        g.fillRectangle(0, 0, 1, 1, new JTColorImpl(JTColor.RED, 0.5));
+        g.fillRectangle(0, 0, 1, 1, new JTColor(JTColor.RED, 0.5));
 
         double e = 0.0001;
         assertThat(i.getColorAt(0, 0).getR(), greaterThan(0.5-e));
@@ -45,7 +45,12 @@ public class FastJTImageGraphicsTest {
 
     }
 
+    @Test
+    public void testPaintImage() throws Exception {
 
+        FastJTImage i1 = new FastJTImage(2, 2);
+        JTGraphics g1 = i1.getGraphics();
+        g1.fillRectangle(0, 0, 2, 2, JTColor.RED);
 
-
+    }
 }

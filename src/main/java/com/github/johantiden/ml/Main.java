@@ -19,7 +19,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.SchedulingConfigurer;
 import org.springframework.scheduling.config.ScheduledTaskRegistrar;
 import com.github.johantiden.ml.jimage.Painter;
-import com.github.johantiden.ml.jimage.color.JTColorImpl;
+import com.github.johantiden.ml.jimage.color.JTColor;
 import com.github.johantiden.ml.jimage.JTImage;
 import com.github.johantiden.ml.jimage.awt.ImageConverter;
 import com.github.johantiden.ml.evolutionary.Evolutionary;
@@ -157,7 +157,7 @@ public class Main implements SchedulingConfigurer {
         return () -> {
             int x = width / 2;
             double y = Math.random() * height / 2 + height / 2;
-            JTColorImpl color = new JTColorImpl(1, 0.5, 0, 1.0/10);
+            JTColor color = new JTColor(1, 0.5, 0, 1.0/10);
             double radius = 7;
             WormBlob wormBlob = new WormBlob(x, y, color, radius, radius, 30);
             Worm worm = new Worm(Lists.newArrayList(wormBlob));

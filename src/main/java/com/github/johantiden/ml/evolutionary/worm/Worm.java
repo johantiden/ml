@@ -1,6 +1,6 @@
 package com.github.johantiden.ml.evolutionary.worm;
 
-import com.github.johantiden.ml.jimage.color.JTColorImpl;
+import com.github.johantiden.ml.jimage.color.JTColor;
 import com.github.johantiden.ml.evolutionary.doubles.BaseChunkPacker;
 import com.github.johantiden.ml.evolutionary.doubles.Packer;
 import com.github.johantiden.ml.util.Maths;
@@ -23,7 +23,7 @@ public class Worm {
             return new WormBlob(
                     packed[startIndex],
                     packed[startIndex+1],
-                    new JTColorImpl(
+                    new JTColor(
                             Math.round(Maths.minmax(packed[startIndex+2], 0, 1)),
                             Math.round(Maths.minmax(packed[startIndex + 3], 0, 1)),
                             Math.round(Maths.minmax(packed[startIndex+4], 0, 1)),

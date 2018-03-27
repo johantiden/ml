@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.github.johantiden.ml.jimage.Painter;
 import com.github.johantiden.ml.jimage.FastJTImage;
 import com.github.johantiden.ml.jimage.color.JTColor;
-import com.github.johantiden.ml.jimage.color.JTColorImpl;
+import com.github.johantiden.ml.jimage.color.JTColor;
 import com.github.johantiden.ml.jimage.JTGraphics;
 import com.github.johantiden.ml.jimage.JTImage;
 import com.github.johantiden.ml.evolutionary.Evolutionary;
@@ -48,7 +48,7 @@ public class ImageService<T> {
     }
 
     private static TreeData tree(List<TreeData> children, double x, double y, double size) {
-        return new TreeData(children, x, y, size, new JTColorImpl(128, 128, 128));
+        return new TreeData(children, x, y, size, new JTColor(128, 128, 128));
     }
 
 

@@ -1,7 +1,7 @@
 package com.github.johantiden.ml.jimage;
 
 import com.github.johantiden.ml.jimage.color.JTColor;
-import com.github.johantiden.ml.jimage.color.JTColorImpl;
+import com.github.johantiden.ml.jimage.color.JTColor;
 
 import java.util.Arrays;
 
@@ -62,7 +62,7 @@ public class FastJTImage implements JTImage {
         if (index >= r.length) {
             throw new IllegalArgumentException("Index out of bounds! x:" + x + " y:" + y + " size: " + r.length + " index:" + index + '.');
         }
-        return new JTColorImpl(
+        return new JTColor(
                 r[index],
                 g[index],
                 b[index]);
@@ -85,7 +85,7 @@ public class FastJTImage implements JTImage {
     }
 
     void setPixel(int index, double r, double g, double b) {
-        JTColorImpl.verify(r, g, b, 1);
+        JTColor.verify(r, g, b, 1);
         this.r[index] = r;
         this.g[index] = g;
         this.b[index] = b;
