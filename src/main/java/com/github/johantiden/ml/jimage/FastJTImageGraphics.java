@@ -1,5 +1,15 @@
 package com.github.johantiden.ml.jimage;
 
+import com.github.johantiden.ml.jimage.color.JTColor;
+import com.github.johantiden.ml.jimage.color.JTColorImpl;
+import com.github.johantiden.ml.jimage.shape.CircleWithColor;
+import com.github.johantiden.ml.jimage.shape.Ellipse;
+import com.github.johantiden.ml.jimage.shape.EllipseWithColor;
+import com.github.johantiden.ml.jimage.shape.LineWithColor;
+import com.github.johantiden.ml.jimage.shape.Point;
+import com.github.johantiden.ml.jimage.shape.PointImpl;
+import com.github.johantiden.ml.jimage.shape.PolygonWithColor;
+import com.github.johantiden.ml.jimage.shape.PolygonWithColorImpl;
 import com.google.common.collect.Lists;
 import com.github.johantiden.ml.util.Maths;
 
@@ -225,7 +235,7 @@ public class FastJTImageGraphics implements JTGraphics {
 
 
     private void mixPixel(int index, double r, double g, double b, double a) {
-        JTColorImpl.verify(r,g,b,a);
+        JTColorImpl.verify(r, g, b, a);
         if (a > 0.999999) {
             fastJTImage.setPixel(index, r, g, b);
         } else {

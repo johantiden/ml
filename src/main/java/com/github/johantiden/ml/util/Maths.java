@@ -1,7 +1,7 @@
 package com.github.johantiden.ml.util;
 
-import com.github.johantiden.ml.jimage.JTColor;
-import com.github.johantiden.ml.jimage.JTColorImpl;
+import com.github.johantiden.ml.jimage.color.JTColor;
+import com.github.johantiden.ml.jimage.color.JTColorImpl;
 
 import java.util.Random;
 

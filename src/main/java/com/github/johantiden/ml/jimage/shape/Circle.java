@@ -1,4 +1,4 @@
-package com.github.johantiden.ml.jimage;
+package com.github.johantiden.ml.jimage.shape;
 
 public interface Circle extends Point, Bounded {
     @Override

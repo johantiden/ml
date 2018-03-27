@@ -1,6 +1,6 @@
 package com.github.johantiden.ml.evolutionary.worm;
 
-import com.github.johantiden.ml.jimage.JTColorImpl;
+import com.github.johantiden.ml.jimage.color.JTColorImpl;
 import com.github.johantiden.ml.evolutionary.doubles.BaseChunkPacker;
 import com.github.johantiden.ml.evolutionary.doubles.Packer;
 import com.github.johantiden.ml.util.Maths;

@@ -1,4 +1,4 @@
-package com.github.johantiden.ml.jimage;
+package com.github.johantiden.ml.jimage.color;
 
 import com.github.johantiden.ml.util.Maths;
 
@@ -19,7 +19,7 @@ public class JTColorImpl implements JTColor {
         this.a = a;
     }
 
-    public JTColorImpl(JTColor baseColor, int a) {
+    public JTColorImpl(JTColor baseColor, double a) {
         this(baseColor.getR(), baseColor.getG(), baseColor.getB(), a);
     }
 

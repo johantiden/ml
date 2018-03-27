@@ -1,6 +1,6 @@
 package com.github.johantiden.ml.evolutionary.tree;
 
-import com.github.johantiden.ml.awt.Painter;
+import com.github.johantiden.ml.jimage.Painter;
 import com.github.johantiden.ml.jimage.JTImage;
 import com.github.johantiden.ml.evolutionary.image.ImageFitnessFunction;
 

@@ -1,10 +1,10 @@
 package com.github.johantiden.ml.evolutionary.tree;
 
-import com.github.johantiden.ml.awt.Painter;
+import com.github.johantiden.ml.jimage.Painter;
 import com.github.johantiden.ml.datastructures.BreadthFirst;
-import com.github.johantiden.ml.jimage.CircleWithColorImpl;
-import com.github.johantiden.ml.jimage.JTColor;
-import com.github.johantiden.ml.jimage.JTColorImpl;
+import com.github.johantiden.ml.jimage.shape.CircleWithColorImpl;
+import com.github.johantiden.ml.jimage.color.JTColor;
+import com.github.johantiden.ml.jimage.color.JTColorImpl;
 import com.github.johantiden.ml.jimage.JTGraphics;
 
 import java.util.function.BiConsumer;

@@ -1,7 +1,7 @@
 package com.github.johantiden.ml.evolutionary.tree;
 
 import com.github.johantiden.ml.datastructures.Tree;
-import com.github.johantiden.ml.jimage.JTColor;
+import com.github.johantiden.ml.jimage.color.JTColor;
 
 import java.util.List;
 import java.util.Objects;

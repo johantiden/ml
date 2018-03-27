@@ -1,5 +1,8 @@
 package com.github.johantiden.ml.jimage;
 
+import com.github.johantiden.ml.jimage.color.JTColor;
+import com.github.johantiden.ml.jimage.color.JTColorImpl;
+
 import java.util.Arrays;
 
 public class FastJTImage implements JTImage {

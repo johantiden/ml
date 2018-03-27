@@ -1,8 +1,8 @@
 package com.github.johantiden.ml.evolutionary.worm;
 
-import com.github.johantiden.ml.jimage.EllipseWithColor;
-import com.github.johantiden.ml.jimage.JTColor;
-import com.github.johantiden.ml.jimage.Point;
+import com.github.johantiden.ml.jimage.shape.EllipseWithColor;
+import com.github.johantiden.ml.jimage.color.JTColor;
+import com.github.johantiden.ml.jimage.shape.Point;
 
 public class WormBlob implements EllipseWithColor {
     public double x;

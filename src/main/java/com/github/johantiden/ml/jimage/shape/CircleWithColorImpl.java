@@ -1,4 +1,6 @@
-package com.github.johantiden.ml.jimage;
+package com.github.johantiden.ml.jimage.shape;
+
+import com.github.johantiden.ml.jimage.color.JTColor;
 
 public class CircleWithColorImpl extends PointWithColor implements CircleWithColor {
     public final double radius;

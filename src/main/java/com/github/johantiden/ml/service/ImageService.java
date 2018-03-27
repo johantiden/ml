@@ -1,10 +1,10 @@
 package com.github.johantiden.ml.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import com.github.johantiden.ml.awt.Painter;
+import com.github.johantiden.ml.jimage.Painter;
 import com.github.johantiden.ml.jimage.FastJTImage;
-import com.github.johantiden.ml.jimage.JTColor;
-import com.github.johantiden.ml.jimage.JTColorImpl;
+import com.github.johantiden.ml.jimage.color.JTColor;
+import com.github.johantiden.ml.jimage.color.JTColorImpl;
 import com.github.johantiden.ml.jimage.JTGraphics;
 import com.github.johantiden.ml.jimage.JTImage;
 import com.github.johantiden.ml.evolutionary.Evolutionary;

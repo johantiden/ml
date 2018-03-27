@@ -1,4 +1,7 @@
-package com.github.johantiden.ml.jimage;
+package com.github.johantiden.ml.jimage.shape;
+
+import com.github.johantiden.ml.jimage.color.Colorful;
+import com.github.johantiden.ml.jimage.color.JTColor;
 
 public class PointWithColor extends PointImpl implements Colorful {
     public final JTColor color;

@@ -1,5 +1,7 @@
 package com.github.johantiden.ml.jimage;
 
+import com.github.johantiden.ml.jimage.color.JTColor;
+
 import java.io.Serializable;
 
 public interface JTImage extends Serializable {

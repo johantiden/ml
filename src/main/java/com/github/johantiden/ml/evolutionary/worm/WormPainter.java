@@ -1,6 +1,6 @@
 package com.github.johantiden.ml.evolutionary.worm;
 
-import com.github.johantiden.ml.awt.Painter;
+import com.github.johantiden.ml.jimage.Painter;
 import com.github.johantiden.ml.jimage.JTGraphics;
 
 import java.util.List;
