@@ -15,8 +15,6 @@ import java.util.List;
 
 public class ImageService<T> {
 
-    private static final boolean FAKE_DATA = false;
-
     @Autowired
     private JTImage tree;
     @Autowired

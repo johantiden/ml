@@ -23,4 +23,5 @@ public interface JTGraphics {
     void fillEllipse(EllipseWithColor ellipseWithColor);
     void fillEllipseRadial(EllipseWithColor ellipseWithColor);
 
+    void paintPixel(int index, double r, double g, double b, double a);
 }

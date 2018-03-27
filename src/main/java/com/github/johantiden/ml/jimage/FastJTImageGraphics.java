@@ -33,11 +33,8 @@ public class FastJTImageGraphics implements JTGraphics {
             for (int x = left; x < right; ++x) {
                 final int index = fastJTImage.getIndex(x, y);
 
-                if (isInsideCircle(circle, x, y)) {
-                    //char alpha = (char) ((Math.max(circle.color.a - Math.sqrt((x - circle.x) * (x - circle.x) +
-                    //                                                                (y - circle.y) * (y - circle.y)) / circle.radius*200, 0)));
-
-                    mixPixel(index, color.getR(), color.getG(), color.getB(), color.getA());
+                if (circle.isInside(x, y)) {
+                    paintPixel(index, color.getR(), color.getG(), color.getB(), color.getA());
                 }
             }
         }
@@ -56,7 +53,7 @@ public class FastJTImageGraphics implements JTGraphics {
 
                 double alphaPercentage = Math.min(1, penWidth - Math.abs(circle.getRadius() - circle.distanceFrom(x, y)));
                 if (alphaPercentage > 0) {
-                    mixPixel(index, circle.getColor().getR(), circle.getColor().getG(), circle.getColor().getB(), (int) Math.round(circle.getColor().getA()*alphaPercentage));
+                    paintPixel(index, circle.getColor().getR(), circle.getColor().getG(), circle.getColor().getB(), (int) Math.round(circle.getColor().getA() * alphaPercentage));
                 }
             }
         }
@@ -72,13 +69,13 @@ public class FastJTImageGraphics implements JTGraphics {
         for (int y = top; y < bottom; ++y) {
             for (int x = left; x < right; ++x) {
 
-                if (isInsideCircle(circle, x, y)) {
+                if (circle.isInside(x, y)) {
                     JTColor color = circle.getColor();
                     char alpha = (char) Math.max(color.getA() * Math.pow((circle.getRadius() - Math.sqrt((x - circle.getX()) * (x - circle.getX()) +
                             (y - circle.getY()) * (y - circle.getY()))) / circle.getRadius(), 2), 0);
 
                     int index = fastJTImage.getIndex(x, y);
-                    mixPixel(index, color.getR(), color.getG(), color.getB(), alpha);
+                    paintPixel(index, color.getR(), color.getG(), color.getB(), alpha);
                 }
             }
         }
@@ -115,7 +112,7 @@ public class FastJTImageGraphics implements JTGraphics {
 
                 int index = fastJTImage.getIndex(x, y);
                 JTColor color = image.getColorAt(j, i);
-                mixPixel(index, color.getR(), color.getG(), color.getB(), color.getA());
+                paintPixel(index, color.getR(), color.getG(), color.getB(), color.getA());
             }
         }
 
@@ -131,7 +128,7 @@ public class FastJTImageGraphics implements JTGraphics {
 
                 int index = fastJTImage.getIndex(x, y);
                 JTColor color = image.getColorAt(j, i);
-                mixPixel(index, color.getR(), color.getG(), color.getB(), alpha);
+                paintPixel(index, color.getR(), color.getG(), color.getB(), alpha);
             }
         }
     }
@@ -146,7 +143,7 @@ public class FastJTImageGraphics implements JTGraphics {
         for (int y = top; y < bottom; ++y) {
             for (int x = left; x < right; ++x) {
                 int index = fastJTImage.getIndex(x, y);
-                mixPixel(index, color.getR(), color.getG(), color.getB(), color.getA());
+                paintPixel(index, color.getR(), color.getG(), color.getB(), color.getA());
             }
         }
     }
@@ -166,7 +163,7 @@ public class FastJTImageGraphics implements JTGraphics {
                 final int index = fastJTImage.getIndex(x, y);
 
                 if (isInsideEllipse(ellipseWithColor, x, y)) {
-                    mixPixel(index, color.getR(), color.getG(), color.getB(), color.getA());
+                    paintPixel(index, color.getR(), color.getG(), color.getB(), color.getA());
                 }
             }
         }
@@ -189,7 +186,7 @@ public class FastJTImageGraphics implements JTGraphics {
                 double ellipseBoundRatio = getEllipseBoundRatio(ellipseWithColor, x, y);
                 if (ellipseBoundRatio < 1) {
                     int alpha = Maths.roundI(color.getA() * (1-ellipseBoundRatio));
-                    mixPixel(index, color.getR(), color.getG(), color.getB(), alpha);
+                    paintPixel(index, color.getR(), color.getG(), color.getB(), alpha);
                 }
             }
         }
@@ -227,14 +224,15 @@ public class FastJTImageGraphics implements JTGraphics {
                 if (polygon.isPointInside(new PointImpl(x, y))) {
                     int index = fastJTImage.getIndex(x, y);
                     double a = color.getA();
-                    mixPixel(index, color.getR(), color.getG(), color.getB(), a);
+                    paintPixel(index, color.getR(), color.getG(), color.getB(), a);
                 }
             }
         }
     }
 
 
-    private void mixPixel(int index, double r, double g, double b, double a) {
+    @Override
+    public void paintPixel(int index, double r, double g, double b, double a) {
         JTColorImpl.verify(r, g, b, a);
         if (a > 0.999999) {
             fastJTImage.setPixel(index, r, g, b);
@@ -257,9 +255,4 @@ public class FastJTImageGraphics implements JTGraphics {
     }
 
 
-    private boolean isInsideCircle(CircleWithColor circle, int x, int y) {
-        return ((x - circle.getX()) * (x - circle.getX()) +
-                (y - circle.getY()) * (y - circle.getY()))
-                < (circle.getRadius() * circle.getRadius());
-    }
 }

@@ -15,7 +15,7 @@ public class WormPainter implements Painter<Worm> {
 //            g.fillEllipse(wormBlob);
 //        }
 
-        blobs.forEach(g::fillEllipseRadial);
+        blobs.forEach(g::fillEllipse);
 
 //        blobs.forEach(b -> g.fillCircle(new CircleWithColorImpl(b.x, b.y, b.color, b.width)));
 //        blobs.forEach(b -> g.fillRectangle(

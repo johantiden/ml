@@ -18,4 +18,11 @@ public class CircleWithColorImpl extends PointWithColor implements CircleWithCol
     public double getRadius() {
         return radius;
     }
+
+    @Override
+    public boolean isInside(double x, double y) {
+        return ((x - getX()) * (x - getX()) +
+                (y - getY()) * (y - getY()))
+                < (getRadius() * getRadius());
+    }
 }
