@@ -1,7 +1,6 @@
 package com.github.johantiden.ml.util;
 
 import com.github.johantiden.ml.jimage.color.JTColor;
-import com.github.johantiden.ml.jimage.color.JTColor;
 
 import java.util.Random;
 
@@ -11,6 +10,12 @@ public class Maths {
 
     public static int roundI(double d) {
         return (int)Math.round(d);
+    }
+    public static int floorI(double d) {
+        return (int)Math.floor(d);
+    }
+    public static int ceilI(double d) {
+        return (int)Math.ceil(d);
     }
 
     public static float roundF(double d) {
@@ -67,8 +72,24 @@ public class Maths {
         return i;
     }
 
-    public static int maxI(double a, double b) {
+    public static int maxRound(double a, double b) {
         return roundI(Math.max(a, b));
+    }
+    public static int maxFloor(double a, int b) {
+        return floorI(Math.max(a, b));
+    }
+    public static int maxCeil(double a, int b) {
+        return ceilI(Math.max(a, b));
+    }
+
+    public static int minRound(double a, double b) {
+        return roundI(Math.min(a, b));
+    }
+    public static int minFloor(double a, double b) {
+        return floorI(Math.min(a, b));
+    }
+    public static int minCeil(double a, double b) {
+        return ceilI(Math.min(a, b));
     }
 
     public static double randomize(double maxJump, double d, double min, double max) {
@@ -89,5 +110,12 @@ public class Maths {
                 roundI(randomize(maxJump, color.getB(), 0, 1)),
                 roundI(randomize(maxJumpAlpha, color.getA(), 0, 1))
                         );
+    }
+
+    public static double random() {
+        return RANDOM.nextDouble();
+    }
+    public static double random(double limit) {
+        return RANDOM.nextDouble()*limit;
     }
 }

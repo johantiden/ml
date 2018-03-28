@@ -100,4 +100,23 @@ public class JTColor {
         result = 31 * result + (int) (temp ^ (temp >>> 32));
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "JTColor{" +
+                "r=" + r +
+                ", g=" + g +
+                ", b=" + b +
+                ", a=" + a +
+                '}';
+    }
+
+    public static JTColor random() {
+        return new JTColor(
+                Maths.random(),
+                Maths.random(),
+                Maths.random(),
+                Maths.random()
+        );
+    }
 }

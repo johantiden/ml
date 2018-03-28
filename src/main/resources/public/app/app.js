@@ -7,6 +7,6 @@ $( document ).ready(function() {
     }
 
 
-    window.setInterval(update, 2000);
+    window.setInterval(update, 5000);
 
 });

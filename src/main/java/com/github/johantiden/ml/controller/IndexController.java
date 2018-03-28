@@ -1,6 +1,7 @@
 package com.github.johantiden.ml.controller;
 
 
+import com.github.johantiden.ml.evolutionary.Named;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,11 +23,11 @@ import java.io.IOException;
 
 @RestController
 @EnableAutoConfiguration
-public class IndexController<T> {
+public class IndexController {
 
     private static final Logger log = LoggerFactory.getLogger(IndexController.class);
     @Autowired
-    private ImageService<T> imageService;
+    private ImageService imageService;
 
     @RequestMapping("/rest/image.png")
     public ResponseEntity<byte[]> image() throws IOException {

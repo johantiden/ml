@@ -1,8 +1,10 @@
 package com.github.johantiden.ml.jimage;
 
-@FunctionalInterface
-public interface Painter<T> {
+import java.util.List;
 
-    void paint(JTGraphics g, T t);
+public interface Painter {
 
+    void paint(JTGraphics g, List<Double> t);
+
+    int getChunkSize();
 }

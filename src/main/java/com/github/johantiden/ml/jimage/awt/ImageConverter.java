@@ -1,6 +1,5 @@
 package com.github.johantiden.ml.jimage.awt;
 
-import com.github.johantiden.ml.jimage.FastJTImage;
 import com.github.johantiden.ml.jimage.JTImage;
 
 import javax.imageio.ImageIO;
@@ -16,7 +15,7 @@ public final class ImageConverter {
     }
 
     public static JTImage loadImage(String pathAndFileName, double scaleDown) {
-        return toFastJTImage(getRealImage(pathAndFileName), scaleDown);
+        return toJTImage(getRealImage(pathAndFileName), scaleDown);
     }
 
     private static BufferedImage getRealImage(String pathAndFileName) {
@@ -47,26 +46,26 @@ public final class ImageConverter {
         return bufferedImage;
     }
 
-    public static FastJTImage toFastJTImage(BufferedImage image, double downscale) {
-        FastJTImage fastJTImage = new FastJTImage(
+    public static JTImage toJTImage(BufferedImage image, double downscale) {
+        JTImage jtImage = new JTImage(
                 (int) (image.getWidth(null) / downscale),
                 (int) (image.getHeight(null) / downscale));
 
-        for (int y = 0; y < fastJTImage.getHeight(); ++y) {
-            for (int x = 0; x < fastJTImage.getWidth(); ++x) {
+        for (int y = 0; y < jtImage.getHeight(); ++y) {
+            for (int x = 0; x < jtImage.getWidth(); ++x) {
                 int argb = image.getRGB((int) (x * downscale), (int) (y * downscale));
 
                 int r = argb >> 16 & 0xff;
                 int g = argb >> 8 & 0xff;
                 int b = argb & 0xff;
 
-                fastJTImage.setPixel(x, y,
+                jtImage.setPixel(x, y,
                         r / 255.0,
                         g / 255.0,
                         b / 255.0);
             }
         }
-        return fastJTImage;
+        return jtImage;
     }
 
 }

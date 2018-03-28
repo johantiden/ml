@@ -2,7 +2,9 @@ package com.github.johantiden.ml;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.collect.Lists;
+import com.github.johantiden.ml.evolutionary.RandomCandidateSupplier;
+import com.github.johantiden.ml.evolutionary.doubles.DoublesTwoBreeder;
+import com.github.johantiden.ml.util.Maths;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.DefaultRedirectStrategy;
 import org.apache.http.impl.client.HttpClientBuilder;
@@ -19,13 +21,10 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.SchedulingConfigurer;
 import org.springframework.scheduling.config.ScheduledTaskRegistrar;
 import com.github.johantiden.ml.jimage.Painter;
-import com.github.johantiden.ml.jimage.color.JTColor;
 import com.github.johantiden.ml.jimage.JTImage;
 import com.github.johantiden.ml.jimage.awt.ImageConverter;
 import com.github.johantiden.ml.evolutionary.Evolutionary;
-import com.github.johantiden.ml.evolutionary.doubles.DoublesSingleBreeder;
-import com.github.johantiden.ml.evolutionary.worm.Worm;
-import com.github.johantiden.ml.evolutionary.worm.WormBlob;
+import com.github.johantiden.ml.evolutionary.doubles.DoublesOneBreeder;
 import com.github.johantiden.ml.evolutionary.worm.WormFitnessFunction;
 import com.github.johantiden.ml.evolutionary.worm.WormPainter;
 import com.github.johantiden.ml.service.ImageService;
@@ -37,9 +36,10 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Files;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
-import java.util.function.Supplier;
 
 @SpringBootApplication
 @EnableScheduling
@@ -49,8 +49,7 @@ public class Main implements SchedulingConfigurer {
 
     private static final Logger log = LoggerFactory.getLogger(Main.class);
     private static final int DEFAULT_PORT = 5000;
-    public static final int DOWNSCALE = 12;
-    public static final int FITNESS_WINDOW_SIZE = 4;
+    public static final int DOWNSCALE = 16;
 
     public static void main(String[] args) {
         log.info("Started Main.main");
@@ -105,21 +104,20 @@ public class Main implements SchedulingConfigurer {
     }
 
     @Bean
-    public ImageService<Worm> imageService() {
-        return new ImageService<>();
+    public ImageService imageService() {
+        return new ImageService();
     }
 
-    @Bean
-    public JTImage getTargetImage() {
+    public static JTImage getTargetImage(int downscale) {
         try {
-            URL resource = ImageService.class.getResource("/images/tree5.jpg");
+            URL resource = ImageService.class.getResource("/images/monalisa.jpg");
             File file = new File(resource.toURI());
             boolean exists = Files.exists(file.toPath());
             if (!exists) {
                 throw new RuntimeException("Could not find file " + file);
             }
             BufferedImage read = ImageIO.read(file);
-            return ImageConverter.toFastJTImage(read, DOWNSCALE);
+            return ImageConverter.toJTImage(read, downscale);
         } catch (IOException e) {
             throw new RuntimeException(e);
         } catch (URISyntaxException e) {
@@ -128,16 +126,19 @@ public class Main implements SchedulingConfigurer {
     }
 
     @Bean
-    public Painter<Worm> painter() {
+    public Painter painter() {
         return new WormPainter();
     }
 
     @Bean
-    public Evolutionary<Worm> evolver() {
-        final Evolutionary<Worm> treeDataEvolutionary = new Evolutionary<>(
-                new DoublesSingleBreeder<>(Worm.packer()),
-                new WormFitnessFunction(getTargetImage(), painter(), FITNESS_WINDOW_SIZE),
-                randomCandidateSupplier(getTargetImage())
+    public Evolutionary evolver() {
+        JTImage targetImage = getTargetImage(DOWNSCALE);
+        RandomCandidateSupplier randomCandidateSupplier = randomCandidateSupplier(targetImage);
+        final Evolutionary treeDataEvolutionary = new Evolutionary(
+                new DoublesOneBreeder(painter().getChunkSize(), randomCandidateSupplier),
+                new DoublesTwoBreeder(painter().getChunkSize()),
+                new WormFitnessFunction(targetImage, painter()),
+                randomCandidateSupplier
         );
 
         executor().execute(() -> {
@@ -149,19 +150,23 @@ public class Main implements SchedulingConfigurer {
         return treeDataEvolutionary;
     }
 
-    private Supplier<Worm> randomCandidateSupplier(JTImage targetImage) {
+    private RandomCandidateSupplier randomCandidateSupplier(JTImage targetImage) {
 
         int width = targetImage.getWidth();
-        int height = targetImage.getHeight();
 
+        int chunkSize = painter().getChunkSize();
         return () -> {
-            int x = width / 2;
-            double y = Math.random() * height / 2 + height / 2;
-            JTColor color = new JTColor(1, 0.5, 0, 1.0/10);
-            double radius = 7;
-            WormBlob wormBlob = new WormBlob(x, y, x+radius, y-radius*2, radius, color);
-            Worm worm = new Worm(Lists.newArrayList(wormBlob));
-            return worm;
+            List<Double> doubles = new ArrayList<>(chunkSize);
+
+            for (int i = 0; i < chunkSize -4; i++) {
+                doubles.add(Maths.random(width));
+            }
+
+            doubles.add(Maths.random());
+            doubles.add(Maths.random());
+            doubles.add(Maths.random());
+            doubles.add(Maths.random());
+            return doubles;
         };
 
     }

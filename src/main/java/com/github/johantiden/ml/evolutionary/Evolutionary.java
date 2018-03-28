@@ -1,64 +1,123 @@
 package com.github.johantiden.ml.evolutionary;
 
+import com.github.johantiden.ml.util.Maths;
+import javafx.util.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Comparator;
+import java.util.Iterator;
 import java.util.List;
-import java.util.function.Function;
-import java.util.function.Supplier;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
-public class Evolutionary<T> {
+public class Evolutionary {
 
     private static final Logger log = LoggerFactory.getLogger(Evolutionary.class);
-    public final Function<T, List<T>> mutator;
-    private final Function<T, Double> fitnessFunction;
-    private final Supplier<T> randomCandidateSupplier;
+    private static final Comparator<Pair<List<Double>, Double>> COMPARATOR =
+            (o1, o2) -> {
+                int i = o1.getValue().compareTo(o2.getValue());
+                if (i != 0) {
+                    return -i;
+                }
 
-    private T best; // optimization
+                return Integer.compare(o1.getKey().hashCode(), o2.getKey().hashCode());
+
+            };
+
+    private final OneBreeder oneBreeder;
+    private final TwoBreeder twoBreeder;
+    private final FitnessFunction fitnessFunction;
+    private final SortedSet<Pair<List<Double>, Double>> population = new TreeSet<>(COMPARATOR);
+
     private double bestFitness = Double.NEGATIVE_INFINITY; // optimization
+    private final int LIMIT = 1000;
 
-    public Evolutionary(Function<T, List<T>> mutator, Function<T, Double> fitnessFunction, Supplier<T> randomCandidateSupplier) {
+    public Evolutionary(
+            OneBreeder oneBreeder,
+            TwoBreeder twoBreeder,
+            FitnessFunction fitnessFunction,
+            RandomCandidateSupplier randomCandidateSupplier) {
         this.fitnessFunction = fitnessFunction;
-        this.randomCandidateSupplier = randomCandidateSupplier;
 
         for (int i = 0; i < 10; i++) {
-            add(randomCandidateSupplier.get());
+            add(new Pair<>(randomCandidateSupplier.get(), "Random"));
         }
 
-        this.mutator = mutator;
+        this.oneBreeder = oneBreeder;
+        this.twoBreeder = twoBreeder;
     }
 
-    private void add(T t) {
-//        candidates.computeIfAbsent(t, fitnessFunction);
+    private void add(Pair<List<Double>, String> candidate) {
+        Double fitness = fitnessFunction.apply(candidate.getKey());
 
-        Double fitness = fitnessFunction.apply(t);
-        //debug
-//        Double fitness = candidates.get(t);
         if (fitness > bestFitness) {
             bestFitness = fitness;
-            best = t;
-            log.info("New best! " + fitness);
+            String name = candidate.getValue();
+            log.info("New best! " + fitness + "\t" + name);
         }
+
+        population.add(new Pair<>(candidate.getKey(), fitness));
+
+        ensurePopulationLimit();
+    }
+
+    private void ensurePopulationLimit() {
+
+        while (population.size() > LIMIT) {
+            Pair<List<Double>, Double> random = getRandom();
+            if (random != getBest()) {
+                population.remove(random);
+            }
+        }
+
     }
 
     public void iterate() {
-        recursiveBreed(best, 0);
+        breedBest();
+        breedNextBest();
+        breedRandom();
+//        breedBestWithRandom();
     }
 
-    private void recursiveBreed(T t, int depth) {
-        List<T> children = breed(t);
-        children.forEach(this::add);
-
-        if (depth > 0) {
-            children.forEach(c -> recursiveBreed(c, depth-1));
+    private void breedNextBest() {
+        if (population.size() >= 2) {
+            addAll(oneBreeder.apply(getNextBest()));
         }
     }
 
-    private List<T> breed(T t) {
-        return mutator.apply(t);
+    private List<Double> getNextBest() {
+        Iterator<Pair<List<Double>, Double>> iterator = population.iterator();
+        iterator.next();
+        return iterator.next().getKey();
     }
 
-    public T findBest() {
-        return best;
+    private void breedBestWithRandom() {
+        addAll(twoBreeder.apply(getRandom().getKey(), getBest()));
+    }
+
+    private void addAll(List<Pair<List<Double>, String>> children) {
+        children.forEach(this::add);
+    }
+
+    private void breedBest() {
+        addAll(oneBreeder.apply(getBest()));
+    }
+
+    private void breedRandom() {
+        addAll(oneBreeder.apply(getRandom().getKey()));
+    }
+
+    private Pair<List<Double>, Double> getRandom() {
+        int index = Maths.randomInt(population.size());
+
+        return population.stream()
+                .skip(index)
+                .findFirst()
+                .get();
+    }
+
+    public List<Double> getBest() {
+        return population.first().getKey();
     }
 }

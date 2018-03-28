@@ -1,5 +1,7 @@
 package com.github.johantiden.ml.jimage.shape;
 
+import com.google.common.collect.Lists;
+
 import java.util.List;
 
 public interface Polygon extends Bounded, Shape {
@@ -24,7 +26,6 @@ public interface Polygon extends Bounded, Shape {
         }
         return result;
     }
-
 
     @Override
     default double left() {
